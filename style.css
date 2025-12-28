@@ -1,0 +1,228 @@
+:root {
+    --primary-color: #800020;
+    /* Burgundy */
+    --bg-color: #fff0f3;
+    --text-color: #590d22;
+    --grid-bg: rgba(255, 255, 255, 0.7);
+    /* More transparent for background visibility */
+    --selection-color: rgba(128, 0, 32, 0.4);
+    /* Burgundy with opacity */
+    --found-color: #800020;
+    /* Burgundy */
+    --found-text: white;
+    --paper-color: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: transparent;
+    /* Transparent for the butterfly background */
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+    /* Prevent scrolling if background is large */
+}
+
+#app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    /* Disable interaction with the background by default */
+}
+
+#app canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--grid-bg);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(164, 19, 60, 0.15);
+    backdrop-filter: blur(8px);
+    /* Increased blur for better readability */
+    touch-action: none;
+    /* Prevent browser panning/scrolling */
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.game-area.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9);
+}
+
+.grid {
+    display: grid;
+    gap: 5px;
+    user-select: none;
+    touch-action: none;
+    /* Prevent browser panning/scrolling */
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    border: 3px solid var(--primary-color);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.cell {
+    width: 30px;
+    /* Reduced size for 15x15 grid */
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    color: var(--text-color);
+}
+
+@media (max-width: 480px) {
+    .cell {
+        width: 22px;
+        /* Even smaller for mobile */
+        height: 22px;
+        font-size: 0.8rem;
+    }
+}
+
+.cell:hover {
+    background-color: #ffe6ea;
+}
+
+.cell.selected {
+    background-color: var(--selection-color);
+    color: var(--text-color);
+    transform: scale(1.1);
+}
+
+.cell.found {
+    background-color: var(--found-color);
+    color: var(--found-text);
+}
+
+/* Letter Styles */
+#letter-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 95%;
+    max-width: 550px;
+    /* Reduced width to fill vertical space */
+    max-height: 90vh;
+    /* Ensure it doesn't exceed viewport height */
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
+
+#letter-container.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.letter {
+    background: rgba(255, 255, 255, 0.85);
+    /* Semi-transparent white */
+    backdrop-filter: blur(10px);
+    /* Glassmorphism effect */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border: 1px solid rgba(224, 213, 197, 0.5);
+    overflow-y: hidden;
+    /* Strictly remove scrollbar */
+    max-height: 100%;
+    height: 800px;
+    /* Maintain height to fill space */
+    display: flex;
+    flex-direction: column;
+}
+
+.letter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid var(--primary-color);
+    margin: 10px;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.letter-content {
+    font-family: 'EB Garamond', serif;
+    line-height: 1.6;
+    color: #2c2c2c;
+    user-select: none;
+    font-size: 1.3rem;
+    /* Garamond looks better slightly larger */
+    flex-grow: 1;
+}
+
+.letter-content p {
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}

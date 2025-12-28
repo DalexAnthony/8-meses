@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <div class="container">
+        <main class="game-area" id="game-area">
+            <div id="word-search-grid" class="grid"></div>
+        </main>
+
+        <div id="letter-container" class="hidden">
+            <div class="letter">
+                <div class="letter-paper">
+                    <div class="letter-content" id="typewriter-text">
+                        <!-- Text will be typed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { butterfliesBackground } from './dist/threejs-toys.module.js'
+
+        butterfliesBackground({
+            el: document.getElementById('app'),
+            eventsEl: document.getElementById('app'), // Set to app container for future interaction
+            gpgpuSize: 24, // Reduced from 32 to 576 butterflies for better performance
+            background: 0xffffff,
+            material: 'basic',
+            materialParams: { transparent: true, alphaTest: 0.5 },
+            texture: 'https://assets.codepen.io/33787/butterflies.png',
+            colors: [0x800020, 0x800080], // Burgundy and Purple
+            textureCount: 4,
+            wingsScale: [1, 1, 1],
+            wingsWidthSegments: 2, // Simplified geometry
+            wingsHeightSegments: 2, // Simplified geometry
+            wingsSpeed: 1.25, // Reverted to original speed
+            wingsDisplacementScale: 1.25,
+            noiseCoordScale: 0.01,
+            noiseTimeCoef: 0.0005, // Reverted to original noise speed
+            noiseIntensity: 0.0025,
+            attractionRadius1: 100,
+            attractionRadius2: 150,
+            maxVelocity: 0.25, // Reverted to original velocity
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
