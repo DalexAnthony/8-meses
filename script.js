@@ -249,3 +249,22 @@ async function startTypewriter() {
 }
 
 initGame();
+
+// Music Control Logic
+const bgMusic = document.getElementById('bg-music');
+const musicToggle = document.getElementById('music-toggle');
+bgMusic.volume = 0.15; // Even lower volume
+let isPlaying = false;
+
+function toggleMusic() {
+    if (isPlaying) {
+        bgMusic.pause();
+        musicToggle.classList.remove('playing');
+    } else {
+        bgMusic.play().catch(err => console.log("User interaction required"));
+        musicToggle.classList.add('playing');
+    }
+    isPlaying = !isPlaying;
+}
+
+musicToggle.addEventListener('click', toggleMusic);
